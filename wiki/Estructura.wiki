@@ -4,8 +4,6 @@
  * `AESExpandKey`
    * Prepara la clave para ser utilizada
    * <code language="pascal">procedure AESExpandKey(var ExpandedKey: TAESExpandedKey; Key: TAESKey);</code>
-     * ExandedKey: Variable que recibe la clave ya procesada
-     * Key: Clave de 32 bytes que se va a procesar
  * `AESEncrypt`
    * Cifra un bloque de 16 bytes
    * 
