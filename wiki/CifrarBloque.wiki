@@ -5,6 +5,9 @@
 Este ejemplo muestra como cifrar un bloque de datos de 16 bytes (tamaño de bloque estandar).
 
 Se utillizan las siguientes funciones:
+ * `AESCopyKey`
+ * `AESExpandKey`
+ * `AESEncrypt`
 
 = Ejemplo =
 
