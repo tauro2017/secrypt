@@ -24,6 +24,7 @@ begin
   PlainText:=
     #$6b#$c1#$be#$e2#$2e#$40#$9f#$96#$e9#$3d#$7e#$11#$73#$93#$17#$2a;
   // Copiamos la clave en una variable del tipo TAESKey
+  // Debemos estar seguros de que la clave tiene 32 bytes de longitud
   AESCopyKey(AESKey,PAnsiChar(Key));
   // Preparamos la clave para ser utilizada
   AESExpandKey(ExpandedKey,AESKey);
