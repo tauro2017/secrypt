@@ -1,5 +1,3 @@
-#Ejemplo de como cifrar un bloque de datos con AES
-
 = Ejemplo de como cifrar un bloque con AES =
 
 Este ejemplo muestra como cifrar un bloque de datos de 16 bytes (tamaño de bloque estandar).
@@ -9,7 +7,7 @@ Se utillizan las siguientes funciones:
  * `AESExpandKey`
  * `AESEncrypt`
 
-= Ejemplo =
+= Código =
 
 <code language="pascal">
 var
