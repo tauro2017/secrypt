@@ -1,6 +1,6 @@
 = Ejemplo de como descifrar un bloque con AES =
 
-Este ejemplo muestra como cifrar un bloque de datos de 16 bytes (tamaño de bloque estandar).
+Este ejemplo muestra como cifrar, y luego volver a descifrar, un bloque de datos de 16 bytes (tamaño de bloque estandar).
 
 Se utillizan las siguientes funciones:
  * `AESExpandKey`
