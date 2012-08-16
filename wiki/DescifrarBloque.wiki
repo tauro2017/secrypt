@@ -1,13 +1,37 @@
-#summary One-sentence summary of this page.
+= Ejemplo de como descifrar un bloque con AES =
 
-= Introduction =
+Este ejemplo muestra como cifrar un bloque de datos de 16 bytes (tamaño de bloque estandar).
 
-Add your content here.
+Se utillizan las siguientes funciones:
+ * `AESCopyKey`
+ * `AESExpandKey`
+ * `AESEncrypt`
+ * `AESDecrypt`
 
+= Código =
 
-= Details =
-
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+<code language="pascal">
+var
+  Key: TAESKey;
+  ExpandedKey: TAESExpandedKey;
+  State: TAESState;
+begin
+  Writeln;
+  // Usamos 32 'A' como clave 
+  FillChar(Key,Sizeof(Key),'A');
+  // Preparamos la clave para ser usada
+  AESExpandKey(ExpandedKey,Key);
+  // Lenamos un bloque con 16 caracteres 'A'
+  FillChar(State,Sizeof(State),'A');
+  Write('Cifrando y descifrando ...');
+  // Ciframos el bloque
+  AESEncrypt(State,ExpandedKey);
+  // Desciframos el bloque
+  AESDecrypt(State,ExpandedKey);
+  // Mostramos el contenido del bloque
+  Writeln('Bloque = ' + Copy(PAnsiChar(@State),1,Sizeof(State)));
+  Writeln;
+  Writeln('Pulsa enter para salir ...');
+  Readln;
+end.
+</code>
