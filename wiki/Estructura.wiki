@@ -30,7 +30,7 @@
    * <code language="pascal">function BinToStr(Data: PByteArray; Len: Integer): AnsiString;</code>
    * Ejemplos: [UnicodeBase64]
  * `StrToBin`
-   *Convierte una cadena de texto (base64) en un conjunto de datos binarios
+   * Convierte una cadena de texto (base64) en un conjunto de datos binarios
    * <code language="pascal">function StrToBin(Str: AnsiString; var Len: Integer; Dirty: Boolean): PByteArray; overload;</code>
    * <code language="pascal">function StrToBin(Str: AnsiString; var Len: Integer): PByteArray; overload;</code>
    * Ejemplos: [UnicodeBase64]
