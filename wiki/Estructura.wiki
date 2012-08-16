@@ -33,10 +33,10 @@
    *Convierte una cadena de texto (base64) en un conjunto de datos binarios
    * <code language="pascal">function StrToBin(Str: AnsiString; var Len: Integer; Dirty: Boolean): PByteArray; overload;</code>
    * <code language="pascal">function StrToBin(Str: AnsiString; var Len: Integer): PByteArray; overload;</code>
+   * Ejemplos: [UnicodeBase64]
  * `Base64CleanStr`
    * Limpia una cadena de texto de todos los caracteres no pertenecen a base64
    * <code language="pascal">function Base64CleanStr(Str: PAnsiChar; Count: Integer): Integer;</code>
-   * Ejemplos: [UnicodeBase64]
 
 ==`SeSha256.pas`==
  * `CalcSHA256`
