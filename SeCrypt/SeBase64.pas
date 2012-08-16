@@ -1,5 +1,9 @@
 unit SeBase64;
 
+{$IFDEF FPC}
+  {$MODE delphi}
+{$ENDIF}
+
 interface
 
 uses SysUtils;
