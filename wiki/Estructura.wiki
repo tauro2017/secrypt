@@ -4,14 +4,15 @@
  * `AESExpandKey`
    * Prepara la clave para ser utilizada
    * <code language="pascal">procedure AESExpandKey(var ExpandedKey: TAESExpandedKey; Key: TAESKey);</code>
-   * Ejemplos: [CifrarBloque]
+   * Ejemplos: [CifrarBloque],[DescifrarBloque]
  * `AESEncrypt`
    * Cifra un bloque de 16 bytes
    * <code language="pascal">procedure AESEncrypt(var State: TAESState; ExpandedKey: TAESExpandedKey);</code>
-   * Ejemplos: [CifrarBloque]
+   * Ejemplos: [CifrarBloque],[DescifrarBloque]
  * `AESDecrypt`
    * Descifra un bloque de 16 bytes
    * <code language="pascal">procedure AESDecrypt(var State: TAESState; ExpandedKey: TAESExpandedKey);</code>
+   * Ejemplos: [DescifrarBloque]
  * `AESXORState`
    * Realiza la operación XOR sobre dos bloques
    * <code language="pascal">procedure AESXORState(var S1: TAESState; S2: TAESState);</code>
@@ -21,7 +22,7 @@
  * `AESCopyKey`
    * Copia el contenido de una porción de memoria para se utilizada como clave
    * <code language="pascal">procedure AESCopyKey(var Key: TAESKey; Buffer: Pointer);</code>
-   * Ejemplos: [CifrarBloque]
+   * Ejemplos: [CifrarBloque],[DescifrarBloque]
 
 ==`SeBase64.pas`==
  * `BinToStr`
