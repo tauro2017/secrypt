@@ -35,7 +35,7 @@
    * <code language="pascal">function StrToBin(Str: AnsiString; var Len: Integer): PByteArray; overload;</code>
    * Ejemplos: [UnicodeBase64]
  * `Base64CleanStr`
-   * Limpia una cadena de texto de todos los caracteres no pertenecen a base64
+   * Limpia una cadena de texto de todos los caracteres que no pertenecen a base64
    * <code language="pascal">function Base64CleanStr(Str: PAnsiChar; Count: Integer): Integer;</code>
 
 ==`SeSha256.pas`==
