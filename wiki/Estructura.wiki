@@ -22,7 +22,7 @@
  * `AESCopyKey`
    * Copia el contenido de una porción de memoria para se utilizada como clave
    * <code language="pascal">procedure AESCopyKey(var Key: TAESKey; Buffer: Pointer);</code>
-   * Ejemplos: [CifrarBloque], [DescifrarBloque]
+   * Ejemplos: [CifrarBloque]
 
 ==`SeBase64.pas`==
  * `BinToStr`
