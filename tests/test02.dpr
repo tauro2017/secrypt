@@ -69,7 +69,7 @@ begin
     AESDecrypt(State,ExpandedKey);
   end;
   Writeln(FormatFloat('0.000',(GetTickCount - Ticks)/1000) + ' sg');
-  Writeln('Satate = ' + Copy(PAnsiChar(@State),1,Sizeof(State)));
+  Writeln('State = ' + Copy(PAnsiChar(@State),1,Sizeof(State)));
   Writeln;
   Writeln('Pulsa enter para salir ...');
   Readln;
