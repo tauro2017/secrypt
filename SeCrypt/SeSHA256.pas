@@ -1,4 +1,8 @@
 unit SeSHA256;
+
+{$IFDEF FPC}
+  {$MODE delphi}
+{$ENDIF}
  
 interface
  

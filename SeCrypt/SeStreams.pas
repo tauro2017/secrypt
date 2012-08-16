@@ -1,5 +1,9 @@
 unit SeStreams;
 
+{$IFDEF FPC}
+  {$MODE delphi}
+{$ENDIF}
+
 interface
 
 uses Sysutils, Classes, SeAES256, SeBase64;

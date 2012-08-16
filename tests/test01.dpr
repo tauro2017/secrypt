@@ -1,5 +1,8 @@
 program test01;
 
+{$IFDEF FPC}
+  {$MODE delphi}
+{$ENDIF}
 {$APPTYPE CONSOLE}
 
 uses
@@ -105,7 +108,7 @@ begin
       Cifr.Clear;
       Desc.Clear;
       // Llenamos un buffer con numeros aleatorios
-      for j:= 1 to (4*1024) + i do
+      for j:= 1 to (32*1024) + i do
       begin
         b:= Random(256);
         Datos.WriteBuffer(b,1);
@@ -141,5 +144,7 @@ begin
     Cifr.Free;
     Desc.Free;
   end;
+  Writeln;
+  Writeln('Pulsa "Enter" para terminar ...');
   Readln;
 end.
