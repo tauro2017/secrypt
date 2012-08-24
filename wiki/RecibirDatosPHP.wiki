@@ -40,56 +40,57 @@ uses
   SysUtils,
   Classes,
   UrlMon,
-  AESStreams in 'AESStreams.pas',
-  base64 in 'base64.pas',
-  SHA256 in 'SHA256.pas';
+  SeAES256 in 'SeAES256.pas',
+  SeBase64 in 'SeBase64.pas',
+  SeSHA256 in 'SeSHA256.pas',
+  SeStreams in 'SeStreams.pas';
 
 var
-  Data: AnsiString;
-  Clave: AnsiString;
-  Key: TAESKey;
-  Stream: TStringStream;
-  BStream: TBase64Dec;
-  AStream: TAESDec;
-begin
-  // Descargamos los datos del ejemplo (elimina primero los espacios de la url)
-  UrlDownloadToFile(nil,
-    'h t t p://delphi.jmrds.com/sites/delphi.jmrds.com/adjuntos/aes.php',
-    PChar(ChangeFileExt(ParamStr(0),'.txt')),0,nil);
-  with TStringList.Create do
-  try
-    // Cargamos los datos en un string
-    LoadFromFile(ChangeFileExt(ParamStr(0),'.txt'));
-    Data:= Trim(Text);
-    Writeln('=== Texto cifrado ===');
-    Writeln(Data);
-    Writeln;
-  finally
-    Free;
-  end;
-  // Introducimos la clave
-  Clave:= 'Clave secreta';
-  // Usamos el Hash de la clave como Key
-  Key:= TAESKey(CalcSHA256(Clave));
-  Writeln('=== Key ===');
-  Writeln(SHA256ToStr(TSHA256HASH(Key)));
-  Writeln;
-  Stream:= TStringStream.Create(EmptyStr);
-  try
-    AStream:= TAESDec.Create(Stream,Key);
-    BStream:= TBase64Dec.Create(AStream);
-    try
-      BStream.WriteBuffer(PAnsiChar(Data)^,Length(Data));
-    finally
-      BStream.Free;
-      AStream.Free;
-    end;
-    Writeln('=== Texto descifrado ===');
-    Writeln(Stream.DataString);
-    Writeln;
-  finally
-    Stream.Free;
-  end;
-  Readln;
-end.
+   Data: AnsiString;
+   Clave: AnsiString;
+   Key: TAESKey;
+   Stream: TStringStream;
+   BStream: TBase64Dec;
+   AStream: TAESDec;
+ begin
+   // Descargamos los datos del ejemplo (elimina primero los espacios de la url)
+   UrlDownloadToFile(nil,
+     'http://delphi.jmrds.com/sites/delphi.jmrds.com/adjuntos/aes.php',
+     PChar(ChangeFileExt(ParamStr(0),'.txt')),0,nil);
+   with TStringList.Create do
+   try
+     // Cargamos los datos en un string
+     LoadFromFile(ChangeFileExt(ParamStr(0),'.txt'));
+     Data:= Trim(Text);
+     Writeln('=== Texto cifrado ===');
+     Writeln(Data);
+     Writeln;
+   finally
+     Free;
+   end;
+   // Introducimos la clave
+   Clave:= 'Clave secreta';
+   // Usamos el Hash de la clave como Key
+   Key:= TAESKey(CalcSHA256(Clave));
+   Writeln('=== Key ===');
+   Writeln(SHA256ToStr(TSHA256HASH(Key)));
+   Writeln;
+   Stream:= TStringStream.Create(EmptyStr);
+   try
+     AStream:= TAESDec.Create(Stream,Key);
+     BStream:= TBase64Dec.Create(AStream);
+     try
+       BStream.WriteBuffer(PAnsiChar(Data)^,Length(Data));
+     finally
+       BStream.Free;
+       AStream.Free;
+     end;
+     Writeln('=== Texto descifrado ===');
+     Writeln(Stream.DataString);
+     Writeln;
+   finally
+     Stream.Free;
+   end;
+   Readln;
+ end.
 </code>
