@@ -53,7 +53,7 @@ var
    BStream: TBase64Dec;
    AStream: TAESDec;
  begin
-   // Descargamos los datos del ejemplo (elimina primero los espacios de la url)
+   // Descargamos los datos del ejemplo
    UrlDownloadToFile(nil,
      'http://delphi.jmrds.com/sites/delphi.jmrds.com/adjuntos/aes.php',
      PChar(ChangeFileExt(ParamStr(0),'.txt')),0,nil);
