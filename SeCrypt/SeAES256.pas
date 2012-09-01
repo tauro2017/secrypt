@@ -125,10 +125,10 @@ begin
   begin
     for j:= 0 to 3 do
       m[j]:= State[i,j];
-    State[i,0]:= Mult[m2,m[0]] XOR Mult[m3,m[1]] XOR m[2] XOR m[3];
-    State[i,1]:= m[0] XOR Mult[m2,m[1]] XOR Mult[m3,m[2]] XOR m[3];
-    State[i,2]:= m[0] XOR m[1] XOR Mult[m2,m[2]] XOR Mult[m3,m[3]];
-    State[i,3]:= Mult[m3,m[0]] XOR m[1] XOR m[2] XOR Mult[m2,m[3]];
+    State[i,0]:= Mult[m2,m[0]] XOR Mult[m3,m[1]] XOR m[2]          XOR m[3];
+    State[i,1]:=          m[0] XOR Mult[m2,m[1]] XOR Mult[m3,m[2]] XOR m[3];
+    State[i,2]:=          m[0] XOR m[1]          XOR Mult[m2,m[2]] XOR Mult[m3,m[3]];
+    State[i,3]:= Mult[m3,m[0]] XOR m[1]          XOR m[2]          XOR Mult[m2,m[3]];
   end;
 end;
 
@@ -170,8 +170,10 @@ end;
 
 function SubWord(W: Cardinal): Cardinal;
 begin
-  Result:= (Sbox[W shr 24] shl 24) or (Sbox[(W shr 16) and $FF] shl 16) or
-    (Sbox[(W shr 8) and $FF] shl 8) or Sbox[W and $FF];
+  Result:= (Sbox[W shr 24] shl 24) or
+           (Sbox[(W shr 16) and $FF] shl 16) or
+           (Sbox[(W shr 8) and $FF] shl 8) or
+            Sbox[W and $FF];                         
 end;
 
 function RotWord(W: Cardinal): Cardinal;
