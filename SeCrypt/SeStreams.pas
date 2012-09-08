@@ -40,6 +40,8 @@ type
   public
     constructor Create(Dest: TStream; Key: TAESKey); overload;
     constructor Create(Dest: TStream; Key: TAESKey; IV: TAESState); overload;
+    constructor Create(Dest: TStream; Key: TAESExpandedKey); overload;
+    constructor Create(Dest: TStream; Key: TAESExpandedKey; IV: TAESState); overload;
     destructor Destroy; override;
     function Read(var Buffer; Count: Longint): Longint; override;
     function Write(const Buffer; Count: Longint): Longint; override;
@@ -189,14 +191,26 @@ end;
 
 constructor TAESDec.Create(Dest: TStream; Key: TAESKey);
 begin
-  inherited Create;
-  FBufferSize:= 0;
-  FDest:= Dest;
   AESExpandKey(FExpandedKey,Key);
-  FillChar(FIV,SizeOf(FIV),#0);
+  Create(Dest,FExpandedKey);
 end;
 
 constructor TAESDec.Create(Dest: TStream; Key: TAESKey; IV: TAESState);
+begin
+  Create(Dest,Key);
+  FIV:= IV;
+end;
+
+constructor TAESDec.Create(Dest: TStream; Key: TAESExpandedKey);
+begin
+  inherited Create;
+  FBufferSize:= 0;
+  FDest:= Dest;
+  FExpandedKey:= Key;
+  FillChar(FIV,SizeOf(FIV),#0);
+end;
+
+constructor TAESDec.Create(Dest: TStream; Key: TAESExpandedKey; IV: TAESState);
 begin
   Create(Dest,Key);
   FIV:= IV;
