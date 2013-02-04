@@ -7,17 +7,26 @@ unit SeAES256;
 interface
 
 type
-  TAESState = Array[0..3,0..3] of Byte;
-  TAESKey = Array[0..7] of Cardinal;
-  TAESExpandedKey = Array[0..59] of Cardinal;
+  TAESState = array[0..3,0..3] of Byte;
+  TAESKey = array[0..7] of Cardinal;
+  TAESExpandedKey = record
+    Key: TAESKey;
+    Size: Integer;
+    ExpandedKey: array[0..59] of Cardinal; 
+  end;
   PAESState = ^TAESState;
 
-procedure AESExpandKey(var ExpandedKey: TAESExpandedKey; Key: TAESKey);
+procedure AESExpandKey(var ExpandedKey: TAESExpandedKey;
+  Key: TAESKey);  overload;
+procedure AESExpandKey(var ExpandedKey: TAESExpandedKey; Key: TAESKey;
+  Size: Integer);  overload;
 procedure AESEncrypt(var State: TAESState; ExpandedKey: TAESExpandedKey);
 procedure AESDecrypt(var State: TAESState; ExpandedKey: TAESExpandedKey);
 procedure AESXORState(var S1: TAESState; S2: TAESState);
 procedure AESSwapKey(var Key: TAESKey);
-procedure AESCopyKey(var Key: TAESKey; Buffer: Pointer);
+procedure AESCopyKey(var Key: TAESKey; Buffer: Pointer); overload;
+procedure AESCopyKey(var Key: TAESKey; Buffer: Pointer;
+  Size: Integer); overload;
 
 
 implementation
@@ -160,7 +169,7 @@ var
 begin
   for i:= 0 to 3 do
   begin
-    W:= ExpandedKey[(Round * 4) + i];
+    W:= ExpandedKey.ExpandedKey[(Round * 4) + i];
     State[i,0]:= State[i,0] XOR ((W shr 24) and $FF);
     State[i,1]:= State[i,1] XOR ((W shr 16) and $FF);
     State[i,2]:= State[i,2] XOR ((W shr 8) and $FF);
@@ -194,31 +203,76 @@ begin
   Result:= Result shl 24;
 end;
 
-procedure AESExpandKey(var ExpandedKey: TAESExpandedKey; Key: TAESKey);
+procedure AESExpandKey(var ExpandedKey: TAESExpandedKey; Key: TAESKey;
+  Size: Integer);  overload;
 var
   i: Integer;
   Temp: Cardinal;
 begin
   FillChar(ExpandedKey,Sizeof(ExpandedKey),#0);
-  for i:= 0 to 7 do
-    ExpandedKey[i]:= Key[i];
-  for i:= 8 to 59 do
-  begin
-    Temp:= ExpandedKey[i-1];
-    if (i mod 8 = 0) then
-      Temp:= SubWord(RotWord(Temp)) XOR Rcon(i div 8)
-    else if (i mod 8 = 4) then
-      Temp:= SubWord(temp);
-    ExpandedKey[i]:= ExpandedKey[i-8] XOR Temp;
+  ExpandedKey.Key:= Key;
+  if Size >= 256 then
+    ExpandedKey.Size:= 256
+  else if Size >= 192 then
+    ExpandedKey.Size:= 192
+  else if Size >= 128 then
+    ExpandedKey.Size:= 128
+  else ExpandedKey.Size:= 256;
+  case ExpandedKey.Size of
+    256: begin
+      for i:= 0 to 7 do
+        ExpandedKey.ExpandedKey[i]:= Key[i];
+      for i:= 8 to 59 do
+      begin
+        Temp:= ExpandedKey.ExpandedKey[i-1];
+        if (i mod 8 = 0) then
+          Temp:= SubWord(RotWord(Temp)) XOR Rcon(i div 8)
+        else if (i mod 8 = 4) then
+          Temp:= SubWord(temp);
+        ExpandedKey.ExpandedKey[i]:= ExpandedKey.ExpandedKey[i-8] XOR Temp;
+      end;
+    end;
+    192: begin
+      for i:= 0 to 5 do
+        ExpandedKey.ExpandedKey[i]:= Key[i];
+      for i:= 6 to 51 do
+      begin
+        Temp:= ExpandedKey.ExpandedKey[i-1];
+        if (i mod 6 = 0) then
+          Temp:= SubWord(RotWord(Temp)) XOR Rcon(i div 6);
+        ExpandedKey.ExpandedKey[i]:= ExpandedKey.ExpandedKey[i-6] XOR Temp;
+      end;
+    end;
+    128: begin
+      for i:= 0 to 3 do
+        ExpandedKey.ExpandedKey[i]:= Key[i];
+      for i:= 4 to 43 do
+      begin
+        Temp:= ExpandedKey.ExpandedKey[i-1];
+        if (i mod 4 = 0) then
+          Temp:= SubWord(RotWord(Temp)) XOR Rcon(i div 4);
+        ExpandedKey.ExpandedKey[i]:= ExpandedKey.ExpandedKey[i-4] XOR Temp;
+      end;
+    end;
   end;
+end;
+
+procedure AESExpandKey(var ExpandedKey: TAESExpandedKey; Key: TAESKey);
+begin
+  AESExpandKey(ExpandedKey,Key,256);
 end;
 
 procedure AESEncrypt(var State: TAESState; ExpandedKey: TAESExpandedKey);
 var
-  Round: Integer;
+  i, Round: Integer;
 begin
+  case ExpandedKey.Size of
+    192: i:= 11;
+    128: i:= 9;
+    else i:= 13;
+  end;
   AddRoundKey(State,ExpandedKey,0);
-  for Round:= 1 to 13 do
+  for Round:= 1 to i do
   begin
     SubBytes(State);
     ShiftRows(State);
@@ -227,15 +281,20 @@ begin
   end;
   SubBytes(State);
   ShiftRows(State);
-  AddRoundKey(State,ExpandedKey,14);
+  AddRoundKey(State,ExpandedKey,i+1); 
 end;
 
 procedure AESDecrypt(var State: TAESState; ExpandedKey: TAESExpandedKey);
 var
-  Round: Integer;
+  i, Round: Integer;
 begin
-  AddRoundKey(State,ExpandedKey,14);
-  for Round:= 13 downto 1 do
+  case ExpandedKey.Size of
+    192: i:= 11;
+    128: i:= 9;
+    else i:= 13;
+  end;
+  AddRoundKey(State,ExpandedKey,i+1);
+  for Round:= i downto 1 do
   begin
     InvShiftRows(State);
     InvSubBytes(State);
@@ -270,10 +329,23 @@ begin
   end;
 end;
 
+procedure AESCopyKey(var Key: TAESKey; Buffer: Pointer;
+  Size: Integer); overload;
+begin
+  if Size >= 256 then
+    Size:= 32
+  else if Size >= 192 then
+    Size:= 24
+  else if Size >= 128 then
+    Size:= 16
+  else Size:= 32;
+  move(Buffer^,Key,Size);
+  AESSwapKey(Key);
+end;
+
 procedure AESCopyKey(var Key: TAESKey; Buffer: Pointer);
 begin
-  move(Buffer^,Key,Sizeof(Key));
-  AESSwapKey(Key);
+  AESCopyKey(Key,Buffer,256);
 end;
 
 // Crea las tablas InvSbox y Mult
