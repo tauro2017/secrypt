@@ -22,8 +22,8 @@ procedure EasyAESDec(Src, Dst: TStream; Password: WideString); overload;
 function EasyAESEnc(Str, Password: WideString): WideString; overload;
 function EasyAESDec(Str, Password: WideString): WideString; overload;
 // Ficheros
-function EasyAESEnc(SrcFile, DstFile, Password: WideString): WideString; overload;
-function EasyAESDec(SrcFile, DstFile, Password: WideString): WideString; overload;
+procedure EasyAESEnc(SrcFile, DstFile, Password: WideString); overload;
+procedure EasyAESDec(SrcFile, DstFile, Password: WideString); overload;
 
 implementation
 
@@ -138,7 +138,7 @@ begin
   end;
 end;
 
-function EasyAESEnc(SrcFile, DstFile, Password: WideString): WideString; overload;
+procedure EasyAESEnc(SrcFile, DstFile, Password: WideString); overload;
 var
   Src, Dst: TFileStream;
 begin
@@ -155,7 +155,7 @@ begin
   end;
 end;
 
-function EasyAESDec(SrcFile, DstFile, Password: WideString): WideString; overload;
+procedure EasyAESDec(SrcFile, DstFile, Password: WideString); overload;
 var
   Src, Dst: TFileStream;
 begin
