@@ -68,3 +68,8 @@
    * <code language="pascal">procedure EasyAESEnc(Src, Dst: TStream; Password: WideString);</code>
    * <code language="pascal">function EasyAESEnc(Str, Password: WideString): WideString;</code>
    * <code language="pascal">procedure EasyAESEnc(SrcFile, DstFile, Password: WideString);</code>
+ * `EasyAESDec`
+   * Cifra utilizando AES 256 CBC con un un IV aleatorio. 
+   * <code language="pascal">procedure EasyAESDec(Src, Dst: TStream; Password: WideString);</code>
+   * <code language="pascal">function EasyAESDec(Str, Password: WideString): WideString;</code>
+   * <code language="pascal">procedure EasyAESDec(SrcFile, DstFile, Password: WideString);</code>
