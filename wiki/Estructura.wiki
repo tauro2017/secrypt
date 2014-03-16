@@ -58,3 +58,13 @@
    * Stream para descodificar un conjunto de datos codificados en base64
  * `StrToStream`
    * Decodifica un conjunto de datos codificados en base64 y los guarda en un stream
+
+==`SeEasyAES.pas`==
+ * `EasyGenKey`
+   * Genera una clave de cifrado de 256 bits a partir de un texto
+   * <code language="pascal">procedure EasyGenKey(var Key: TAESKey; Password: WideString);</code>
+ * `EasyAESEnc`
+   * Cifra utilizando AES 256 CBC con un un IV aleatorio. 
+   * <code language="pascal">procedure EasyAESEnc(Src, Dst: TStream; Password: WideString);</code>
+   * <code language="pascal">function EasyAESEnc(Str, Password: WideString): WideString;</code>
+   * <code language="pascal">procedure EasyAESEnc(SrcFile, DstFile, Password: WideString);</code>
