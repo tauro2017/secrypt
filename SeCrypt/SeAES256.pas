@@ -27,6 +27,7 @@ procedure AESSwapKey(var Key: TAESKey);
 procedure AESCopyKey(var Key: TAESKey; Buffer: Pointer); overload;
 procedure AESCopyKey(var Key: TAESKey; Buffer: Pointer;
   Size: Integer); overload;
+procedure AESGenRandomIV(var IV: TAESState);
 
 
 implementation
@@ -339,6 +340,7 @@ begin
   else if Size >= 128 then
     Size:= 16
   else Size:= 32;
+  FillChar(Key,Sizeof(Key),0);
   move(Buffer^,Key,Size);
   AESSwapKey(Key);
 end;
@@ -346,6 +348,16 @@ end;
 procedure AESCopyKey(var Key: TAESKey; Buffer: Pointer);
 begin
   AESCopyKey(Key,Buffer,256);
+end;
+
+procedure AESGenRandomIV(var IV: TAESState);
+var
+  i, j: Integer;
+begin
+  Randomize;
+  for i:= 0 to 3 do
+    for j:= 0 to 3 do
+      IV[i,j]:= Byte(Random(256));      
 end;
 
 // Crea las tablas InvSbox y Mult
