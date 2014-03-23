@@ -29,8 +29,7 @@ begin
     Writeln('=== Texto descifrado ===');
     Writeln(Cifrado);
     Writeln;
-    Writeln('Resultado = ' + BoolToStr(Src = Cifrado,TRUE));
-    Writeln;
+    Writeln('Resultado = ' + BoolToStr(Src = Cifrado,TRUE)); 
   except
     On E: Exception do
       Writeln(E.Message);
