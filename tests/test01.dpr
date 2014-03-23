@@ -11,8 +11,9 @@ uses
   windows,
   SeAES256 in '..\SeCrypt\SeAES256.pas',
   SeBase64 in '..\SeCrypt\SeBase64.pas',
-  SeSHA256 in '..\SeCrypt\SeSHA256.pas',
-  SeStreams in '..\SeCrypt\SeStreams.pas';
+  SeMD5 in '..\SeCrypt\SeMD5.pas',
+  SeStreams in '..\SeCrypt\SeStreams.pas',
+  SeSHA256 in '..\SeCrypt\SeSHA256.pas';
 
 function TestAESVector(Key, PlainText, CipherText: AnsiString; Size: Integer): Boolean;
 var
@@ -122,6 +123,20 @@ begin
   Writeln('Vector 5: ' + BoolToStr((
     (LowerCase(SHA256ToStr(CalcSHA256(StringOfChar('a',1000000))))
       = 'cdc76e5c 9914fb92 81a1c7e2 84d73e67 f1809a48 a497200e 046d39cc c7112cd0')),TRUE));
+  Writeln;
+  Writeln('Comprobando md5 ...');
+  Writeln('Vector 1: ' + BoolToStr((
+    (LowerCase(MD5ToStr(CalcMD5('')))
+      = 'd41d8cd98f00b204e9800998ecf8427e')),TRUE));  
+  Writeln('Vector 2: ' + BoolToStr((
+    (LowerCase(MD5ToStr(CalcMD5('abc')))
+      = '900150983cd24fb0d6963f7d28e17f72')),TRUE));
+  Writeln('Vector 3: ' + BoolToStr((
+    (LowerCase(MD5ToStr(CalcMD5('abcdbcdecdefdefgefghfghighijhijkijkljklmklmnlmnomnopnopq')))
+      = '8215ef0796a20bcaaae116d3876c664a')),TRUE));
+  Writeln('Vector 4: ' + BoolToStr((
+    (LowerCase(MD5ToStr(CalcMD5(StringOfChar('a',1000000))))
+      = '7707d6ae4e027c70eea2a935c2296f21')),TRUE));
   Writeln;
   Writeln('Comprobando BASE64 ...');
   Writeln('Vector 1: ' + BoolToStr(TestBase64Vector('',''),TRUE));
