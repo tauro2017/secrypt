@@ -47,6 +47,15 @@
    * Presenta el hash en formato hexadecimal para que pueda ser leído
    * <code language="pascal">function SHA256ToStr(Hash: TSHA256HASH): String;</code>
 
+==`SeMD5.pas`==
+ * `CalcMD5`
+   * Calcula el hash MD5 de un conjunto de datos binarios, o de una cadena de texto  
+   * <code language="pascal">function CalcMD5(Msg: AnsiString): TMD5HASH; overload;</code>
+   * <code language="pascal">function CalcMD5(Stream: TStream): TMD5HASH; overload;</code>
+ * `MD5ToStr`
+   * Presenta el hash en formato hexadecimal para que pueda ser leído
+   * <code language="pascal">function MD5ToStr(Hash: TMD5HASH): String;</code>
+
 ==`SeStreams.pas`==
  * `TAESEnc`
    * Stream para cifrar datos usando AES256 con el metdodo CBC (Cipher-block chaining)
