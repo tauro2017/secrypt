@@ -81,7 +81,8 @@ begin
   // Leemos la cabecera
   Src.ReadBuffer(Header,Sizeof(Header));
   // Comprobamos la version y el tamaño
-  if (Header.Version <> 1) and (Header.HeaderSize < Sizeof(Header)) then
+  if (Header.Version <> 1) or (Header.HeaderSize < Sizeof(Header)) or
+     (Header.HeaderSize > Src.Size) or (Header.OriginalDataSize < 0) then
     raise Exception.Create('Invalid header');
   // No saltamos la informacion "extra" si la hubiese
   Src.Position:= Header.HeaderSize;
@@ -92,7 +93,10 @@ begin
     // Desciframos el stream
     AESDec.CopyFrom(Src,Src.Size - Header.HeaderSize);
     // Restauramos su tamaño original
-    Dst.Size:= Header.OriginalDataSize;
+    if (Header.OriginalDataSize <= Dst.Size) then
+      Dst.Size:= Header.OriginalDataSize
+    else
+     raise Exception.Create('Invalid data size');
   finally
     AESDec.Free;
   end;
